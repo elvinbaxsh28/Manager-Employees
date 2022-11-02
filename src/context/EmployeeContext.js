@@ -17,8 +17,16 @@ const EmployeeContextProvider = (props) => {
         setEmployees([...employees, {id:uuidv4(), name, email, address, phone}])
     }
 
+    const deleteEmployee = (id) => {
+        setEmployees(employees.filter(employee => employee.id !==id))
+    }
+
+    const updateEployee = (id, updateEployee) => {
+        setEmployees(employees.map((employee) => (employee.id === id ? updateEployee : employee)))
+    }
+
     return (
-        <EmployeeContext.Provider value={{employees, addEmployee}}>
+        <EmployeeContext.Provider value={{employees, addEmployee, deleteEmployee, updateEployee }}>
             {props.children}
         </EmployeeContext.Provider>
     )

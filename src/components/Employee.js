@@ -1,23 +1,49 @@
-const Employee = ({employees}) =>{
+import {useContext, useState} from 'react';
+import { Button, Modal } from "react-bootstrap";
+import { EmployeeContext } from "../context/EmployeeContext";
+import EditForm from './EditForm';
+
+
+const Employee = ({employee}) =>{
+
+    const {deleteEmployee} = useContext(EmployeeContext);
+
+    const [show, setShow] = useState(false)
+
+        const handleClose = () => setShow(false);
+        const handleShow = () => setShow(true);
+
     return (
         <>
-                {
-                    employees.map((employee,) => (
-                        <tr key={employee.id}>
+               
 						<td>{employee.name}</td>
 						<td>{employee.email}</td>
 						<td>{employee.address}</td>
 						<td>{employee.phone}</td>
 						<td>
-							<a href="#editEmployeeModal" className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-							<a href="#deleteEmployeeModal" className="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+							<button onClick={handleShow} className="btn text-warning btn-act" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>
+							<button onClick={() => deleteEmployee(employee.id)} className="btn text-danger btn-act" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button>
 						</td>
-					</tr>
-                    ))
-                }
+					
+                        <Modal show={show} onHide={handleClose}>
+            <Modal.Header className="modal-header" closeButton>
+                <Modal.Title>
+                    Add Employee
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <EditForm />
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Close Button
+                </Button>
+            </Modal.Footer>
+        </Modal>
+                
         </>
                     
     )
-}
+    }
 
 export default Employee;
